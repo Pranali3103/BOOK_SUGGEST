@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Signup</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='signupstyle.css') }}">
+</head>
+<body>
+        
+    <nav class="navbar" style="background-color:#a782ad">
+        <div class="container-fluid" style="display:flex;justify-content: space-around;">
+            <div class="navbar-header">
+                <a class="navbar-brand" style="display: flex; align-items: center;">
+                    <img src="/static/logo.png" alt="Logo" class="img-responsive" style="max-height: 40px; margin-right: 10px;">
+                    <span style="font-size: 50px; font-weight: bold; font-family: 'Arial', sans-serif;">BOOK SUGGEST</span>
+                </a>
+            </div>
+            <ul class="nav navbar-nav ml-auto" style="list-style-type: none; padding: 0; display: flex; align-items: center;">
+                <li style="margin-left: 20px; margin-right: 20px;"><a href="/">Home</a></li>
+                <li style="margin-left: 20px; margin-right: 20px;"><a href="/recommend">Recommend</a></li>
+                 <li style="margin-left: 20px; margin-right: 20px;"><a href="/recommend_genre">Recommend by Genre</a></li>
+                <button style="background-color: #fc6c85;height:40px;width: 90px;border-radius: 20px;">
+                    <li><a href="/login">Login</a></li>
+                
+                    <button style="background-color: #fc6c85;height:40px;width: 90px;border-radius: 20px;">
+                        <li><a href="/signup">Signup</a></li>
+                    
+                    </button>  
+                <!-- <li style="margin-left: 20px; margin-right: 20px;"><a href="/about">AboutUs</a></li> -->
+            </ul>
+        </div>
+    </nav>
+    
+    
+    <div class="signup-container" style="margin-top: 10%;">
+        <div class="signup-info">
+            <h1>Signup</h1>
+            <form method="POST" action="/signup">
+                <div>
+                    <label for="first_name">First Name:</label>
+                    <input type="text" id="first_name" name="first_name" required>
+                </div>
+                <div>
+                    <label for="last_name">Last Name:</label>
+                    <input type="text" id="last_name" name="last_name" required>
+                </div>
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div>
+                    <button type="submit">Signup</button>
+                </div>
+            </form>
+        </div>
+        <div class="login-link">
+            <p>Already have an account? <a href="/login">Login</a></p>
+        </div>
+    </div>
+</body>
+</html>
+

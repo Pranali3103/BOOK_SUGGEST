@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Recommender System</title>
+    <script src="app.js"></script>
+</head>
+<style>
+    /* Global Styles */
+    body {
+        font-family: Arial, sans-serif;
+
+        background-color: #f0f0f0;
+    }
+
+    .text-white {
+        color: white;
+    }
+
+    /* Navbar Styles */
+    .navbar {
+        background-color: #a782ad;
+    }
+
+    .navbar-brand img {
+        max-height: 40px;
+        margin-right: 10px;
+    }
+
+    .navbar-brand span {
+        font-size: 50px;
+        font-weight: bold;
+        font-family: 'Arial', sans-serif;
+        color: #fc6c85;
+    }
+
+    .navbar-nav li {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    /* Recommend Books Form Styles */
+    .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    h1.text-white {
+        font-size: 50px;
+    }
+
+    .form-control {
+        width: 100%;
+        max-width: 300px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    .btn-warning {
+        background-color: #fc6c85;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    /* Book Recommendations Styles */
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .col-md-3 {
+        flex: 0 0 calc(25% - 20px); /* 4 columns with margin between */
+        margin: 10px;
+    }
+
+    .card {
+        border: none;
+        border-radius: 10px;
+        background-color: #ffffff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-body {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .card-img-top {
+        margin: auto;
+        width: 50%;
+        height: 20%;
+    }
+
+    .card-text {
+        margin-top: 10px;
+        color: #000000;
+    }
+
+    .card-title {
+        font-size: 20px;
+        font-weight: bold;
+    }
+</style>
+<body>
+
+<nav class="navbar">
+    <div class="container-fluid" style="display: flex; justify-content: space-around;">
+        <div class="navbar-header">
+            <a class="navbar-brand" style="display: flex; align-items: center;">
+                <img src="/static/logo.png" alt="Logo" class="img-responsive">
+                <span style='color:black'>BOOK SUGGEST</span>
+            </a>
+        </div>
+        <ul class="nav navbar-nav ml-auto" style="list-style-type: none; padding: 0; display: flex; align-items: center;">
+            <li><a href="/">Home</a></li>
+            <li><a href="/recommend">Recommend</a></li>
+             <li style="margin-left: 20px; margin-right: 20px;"><a href="/recommend_genre">Recommend by Genre</a></li>
+<button style="background-color: #fc6c85;height:40px;width: 90px;border-radius: 20px;">
+    <li><a href="/login">Login</a></li>
+
+    <button style="background-color: #fc6c85;height:40px;width: 90px;border-radius: 20px;">
+        <li><a href="/signup">Signup</a></li>
+
+    </button>             <!-- <li><a href="/about">AboutUs</a></li> -->
+
+        </ul>
+    </div>
+</nav>
+
+
+    <!-- Add the library image after the navbar and before the "Top 50 Books" -->
+
+<!--alreadycomented start-->
+
+<div class="container" style="background-color: #ccc;">
+    <div class="col-md-12">
+        <h1 class="text-white" style="color:black">Find Your Book Of Your Choice</h1>
+        <form action="/recommend_books" method="post" onsubmit="return validateForm()">
+<!--            <input name="user_input" type="text" class="form-control" placeholder="The lost World.." id="bookTitle">-->
+            <input name="user_input" type="text" class="form-control" placeholder="Enter Book Title or Genre" id="bookInput">
+
+            <input type="submit" class="btn btn-warning" value="Recommend">
+            <p class="text-white" id="errorMessage" style="display: none; color: red;">Please enter the book title.</p>
+        </form>
+    </div>
+
+    {% if data %}
+    <div class="row" style="display: flex;flex-wrap: wrap;column-gap: 30px;margin-left:6%;">
+        {% for i in data %}
+        <div class="col-md-6" style="margin-top: 50px;">
+            <div class="card" style="box-shadow: 0 0 30px 0 rgb(210, 210, 210); width: 270px;height: 370px; text-align: center;">
+                <div class="card-body">
+                    <img class="card-img-top" style="margin-top: 20px;" src="{{i[2]}}">
+                    <p class="card-text text-white">{{i[0]}}</p>
+                    <h4 class="card-title text-white" style="color:black">{{i[1]}}</h4>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    function validateForm() {
+        var bookTitle = document.getElementById("bookTitle").value;
+        if (bookTitle === "") {
+            document.getElementById("errorMessage").style.display = "block";
+            return false; // Prevent form submission
+        }
+        return true;
+    }
+</script>
+
+<script>
+    function validateForm() {
+        var user_input = document.getElementById("bookInput").value;
+        var search_type = document.getElementById("searchType").value;
+
+        if (user_input === "") {
+            document.getElementById("errorMessage").style.display = "block";
+            return false; // Prevent form submission
+        }
+
+        // Check if the user wants to search by book title
+        if (search_type === "book_title") {
+            // Handle book title search
+            // You can call the existing book recommendation logic here
+        } else if (search_type === "genre") {
+            // Handle genre search
+            // You can call the logic for recommending books based on genre here
+        }
+
+        return true;
+    }
+</script>
+
+
+</body>
+</html>
+
+<!--already commented end-->
+
+<!--<div class="container" style="background-color: #ccc;">-->
+<!--    <div class="col-md-12">-->
+<!--        <h1 class="text-white" style="color: black;">Find Your Book Of Your Choice</h1>-->
+<!--        <form action="/recommend_books" method="post" onsubmit="return validateForm()">-->
+<!--            <input name="user_input" type="text" class="form-control" placeholder="Enter Book Title or Genre" id="bookInput">-->
+<!--            <select name="search_type" id="searchType" class="form-control">-->
+<!--                <option value="book_title">Book Title</option>-->
+<!--                <option value="genre">Genre</option>-->
+<!--            </select>-->
+<!--            <input type="submit" class="btn btn-warning" value="Recommend">-->
+<!--            <p class="text-white" id="errorMessage" style="display: none; color: red;">Please enter the book title or genre.</p>-->
+<!--        </form>-->
+<!--    </div>-->
+
+<!--NEWWWW CODE-->
+<!--<div class="container" style="background-color: #ccc;">-->
+<!--    <div class="col-md-12">-->
+<!--        <h1 class="text-white" style="color: black;">Find Your Book Of Your Choice</h1>-->
+<!--        <form action="/recommend_books" method="post" onsubmit="return validateForm()">-->
+<!--            <input name="user_input" type="text" class="form-control" placeholder="Enter Book Title or Genre" id="bookInput">-->
+<!--            <select name="search_type" id="searchType" class="form-control">-->
+<!--                <option value="book_title">Book Title</option>-->
+<!--                <option value="genre">Genre</option>-->
+<!--            </select>-->
+<!--            &lt;!&ndash; Add the "Genre" input field &ndash;&gt;-->
+<!--            <input name="genre" type="text" class="form-control" placeholder="Enter Genre" id="genreInput" style="display: none;">-->
+<!--            <input type="submit" class="btn btn-warning" value="Recommend">-->
+<!--            <p class="text-white" id="errorMessage" style="display: none; color: red;">Please enter the book title or genre.</p>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<div class="container">-->
+<!--    {% if data %}-->
+<!--    <div class="row" style="display: flex;flex-wrap: wrap;column-gap: 30px;margin-left:6%;">-->
+<!--        {% for i in data %}-->
+<!--        <div class="col-md-6" style="margin-top: 50px;">-->
+<!--            <div class="card" style="box-shadow: 0 0 30px 0 rgb(210, 210, 210); width: 270px;height: 370px; text-align: center;">-->
+<!--                <div class="card-body">-->
+<!--                    <img class="card-img-top" style="margin-top: 20px;" src="{{i[2]}}">-->
+<!--                    <p class="card-text text-white">{{i[0]}}</p>-->
+<!--                    <h4 class="card-title text-white" style="color: black;">{{i[1]}}</h4>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        {% endfor %}-->
+<!--    </div>-->
+<!--    {% endif %}-->
+<!--</div>-->
+
+
+
+
+
+<!--<script>-->
+<!--    function validateForm() {-->
+<!--        var user_input = document.getElementById("bookInput").value;-->
+<!--        var search_type = document.getElementById("searchType").value;-->
+
+<!--        if (user_input === "") {-->
+<!--            document.getElementById("errorMessage").style.display = "block";-->
+<!--            return false; // Prevent form submission-->
+<!--        }-->
+
+<!--        // Check if the user wants to search by book title-->
+<!--        if (search_type === "book_title") {-->
+<!--            // Handle book title search-->
+<!--            // You can call the existing book recommendation logic here-->
+<!--        } else if (search_type === "genre") {-->
+<!--            // Handle genre search-->
+<!--            // You can call the logic for recommending books based on genre here-->
+
+<!--            // Redirect to the /recommend_genre route with the selected genre-->
+<!--            window.location.href = '/recommend_genre?genre=' + user_input;-->
+<!--            return false; // Prevent form submission-->
+<!--        }-->
+
+<!--        return true;-->
+<!--    }-->
+<!--</script>-->
+
+
+
+
+<!--<script>-->
+<!--    function validateForm() {-->
+<!--        var user_input = document.getElementById("bookInput").value;-->
+<!--        var search_type = document.getElementById("searchType").value;-->
+
+<!--        if (user_input === "") {-->
+<!--            document.getElementById("errorMessage").style.display = "block";-->
+<!--            return false; // Prevent form submission-->
+<!--        }-->
+
+<!--        // Check if the user wants to search by book title-->
+<!--        if (search_type === "book_title") {-->
+<!--            // Handle book title search-->
+<!--            // You can call the existing book recommendation logic here-->
+<!--        } else if (search_type === "genre") {-->
+<!--            // Handle genre search-->
+<!--            // You can call the logic for recommending books based on genre here-->
+
+<!--            // Update the form action to include the genre parameter-->
+<!--            var form = document.getElementById("searchForm");-->
+<!--            form.action = '/recommend?genre=' + encodeURIComponent(user_input);-->
+<!--        }-->
+
+<!--        return true;-->
+<!--    }-->
+<!--</script>-->
+</body>
+</html>
+
+

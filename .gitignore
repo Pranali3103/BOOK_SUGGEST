@@ -1,0 +1,8 @@
+venv
+books.pkl
+pt.pkl
+genre.pkl
+popular.pkl
+genre_with_name.pkl
+recommend_genre.pkl
+similarity_scores.pkl

@@ -1,0 +1,87 @@
+<style>body {
+    background-color: #f0f0f0;
+}
+</style>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='loginstyle.css') }}">
+
+</head>
+<body>
+    <div id="success-message" class="success-message" style="display: none;">
+        <p>Login successful!</p>
+    </div>
+
+    <nav class="navbar" style="background-color:#a782ad">
+        <div class="container-fluid" style="display:flex;justify-content: space-around;">
+            <div class="navbar-header">
+                <a class="navbar-brand" style="display: flex; align-items: center;">
+                    <img src="/static/logo.png" alt="Logo" class="img-responsive" style="max-height: 40px; margin-right: 10px;">
+                    <span style="font-size: 50px; font-weight: bold; font-family: 'Arial', sans-serif;">BOOK SUGGEST</span>
+                </a>
+            </div>
+            <ul class="nav navbar-nav ml-auto" style="list-style-type: none; padding: 0; display: flex; align-items: center;">
+                <li style="margin-left: 20px; margin-right: 20px;"><a href="/">Home</a></li>
+                <li style="margin-left: 20px; margin-right: 20px;"><a href="/recommend">Recommend</a></li>
+                 <li style="margin-left: 20px; margin-right: 20px;"><a href="/recommend_genre">Recommend by Genre</a></li>
+                <button style="background-color: #fc6c85;height:40px;width: 90px;border-radius: 20px;">
+                    <li><a href="/login">Login</a></li>
+                
+                    <button style="background-color: #fc6c85;height:40px;width: 90px;border-radius: 20px;">
+                        <li><a href="/signup">Signup</a></li>
+                    
+                    </button>  
+                <!-- <li style="margin-left: 20px; margin-right: 20px;"><a href="/about">AboutUs</a></li> -->
+            </ul>
+        </div>
+    </nav>
+    
+    
+    <div class="login-container" style="margin-top: 10%;">
+        <div class="login-form">
+            <h1>Login</h1>
+            <form method="POST" action="/login"  onsubmit="clearForm(event)">
+                <div>
+                    <label for="username">Username or Email:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div>
+                    <button type="submit">Login</button>
+                </div>
+            </form>
+        </div>
+        <div class="signup-link">
+            <p>Don't have an account? <a href="/signup">Signup</a></p>
+        </div>
+    </div>
+
+    <script>
+        // Function to show the success message and alert
+        function showSuccessMessage() {
+            var successMessage = document.getElementById("success-message");
+            successMessage.style.display = "block"; // Display the hidden div
+            setTimeout(function() {
+                successMessage.style.display = "none"; // Hide the div after a few seconds
+                alert("SignUp successful!"); // Display an alert after the message is hidden
+            }, 3000); // Adjust the time (in milliseconds) the message is displayed
+        }
+    
+        showSuccessMessage();
+    
+        function clearForm(event) {
+            event.preventDefault(); // Prevent the default form submission
+            document.getElementById("username").value = ""; // Clear the username field
+            document.getElementById("password").value = ""; // Clear the password field
+        }
+    </script>
+    
+</body>
+</html>

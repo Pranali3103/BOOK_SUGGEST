@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Recommender System</title>
+    <script src="app.js"></script>
+</head>
+<style>
+    .text-white {
+        color: rgb(55, 18, 18);
+    }
+
+    body {
+        background-image: url('/backend/static/library-img.png'); /* Replace 'library-img.jpg' with the actual image path */
+        background-size: cover; /* Adjust the image size to cover the entire background */
+        background-attachment: fixed; /* Fixed background to prevent scrolling */
+    }
+</style>
+
+<body>
+
+    <nav class="navbar" style="background-color:#a782ad">
+        <div class="container-fluid" style="display: flex; justify-content: space-around;">
+            <div class="navbar-header">
+                <a class="navbar-brand" style="display: flex; align-items: center;">
+                    <img src="/static/logo.png" alt="Logo" class="img-responsive" style="max-height: 40px; margin-right: 10px;">
+                    <span style="font-size: 50px; font-weight: bold; font-family: 'Arial', sans-serif;">BOOK SUGGEST</span>
+                </a>
+            </div>
+            <ul class="nav navbar-nav ml-auto" style="list-style-type: none; padding: 0; display: flex; align-items: center;">
+                <li style="margin-left: 20px; margin-right: 20px;"><a href="/">Home</a></li>
+                <li style="margin-left: 20px; margin-right: 20px;"><a href="/recommend">Recommend</a></li>
+                <li style="margin-left: 20px; margin-right: 20px;"><a href="/recommend_genre">Recommend by Genre</a></li>
+          <button style="background-color: #fc6c85;height:40px;width: 90px;border-radius: 20px;">
+    <li><a href="/login">Login</a></li>
+
+    <button style="background-color: #fc6c85;height:40px;width: 90px;border-radius: 20px;">
+        <li><a href="/signup">Signup</a></li>
+
+    </button>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Add the library image after the navbar and before the "Top 50 Books" -->
+        <img src="/static/library-img.png" alt="Library Image" class="img-responsive" style="margin-top: 20px; filter: brightness(50%);">
+
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="text-white" style="font-size: 50px; text-align: center;">Top 50 Books</h1>
+            </div>
+        </div>
+
+        <div class="row" style="display: flex; flex-wrap: wrap; column-gap: 30px; margin-left: 6%;">
+            {% for i in range(book_name|length) %}
+                <div class="col-md-3 col-sm-6" style="margin-top: 50px;">
+                    <div class="card" style="box-shadow: 0 0 30px 0 rgb(210, 210, 210); width: 300px; height: 370px; text-align: center;">
+                        <div class="card-body" style="padding: 10px;">
+                            <img class="card-img-top" src="{{ image[i] }}">
+                            <p class="text-white">{{ book_name[i] }}</p>
+                            <h4 class="text-white">{{ author[i] }}</h4>
+                            <h4 class="text-white">Votes - {{ votes[i] }}</h4>
+                            <h4 class="text-white">Rating - {{ rating[i] }}</h4>
+                        </div>
+                    </div>
+                </div>
+                {% if (i + 1) % 4 == 0 %}
+        </div> <!-- Close the current row -->
+        <div class="row" style="display: flex; flex-wrap: wrap; column-gap: 30px; margin-left: 6%;"> <!-- Start a new row -->
+        {% endif %}
+        {% endfor %}
+    </div> <!-- Close the final row if necessary -->
+    </div>
+</body>
+</html>
